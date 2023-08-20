@@ -16,7 +16,8 @@ export interface Movie {
   title: string;
   director: string;
   producer: string;
-  episode: number;
+  episodeId: number;
+  episodeName: string;
   description: number;
   releaseDate: string;
 }

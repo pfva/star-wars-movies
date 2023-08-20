@@ -1,18 +1,21 @@
 import { useFetch } from 'usehooks-ts';
 import { APIResult } from '../types';
 import { useMemo } from 'react';
+import { makeRomanNumeral } from '../utils';
 
 const ENDPOINT = 'https://swapi.dev/api/films/?format=json';
 
 const dataTransformer = (data: APIResult | undefined) => {
   return data?.results?.map(movie => {
     const { title, episode_id, opening_crawl, director, producer, release_date } = movie;
+    const episodeName = `EPISODE ${makeRomanNumeral(episode_id)}`;
 
     return {
       title,
       director,
       producer,
-      episode: episode_id,
+      episodeName,
+      episodeId: episode_id,
       description: opening_crawl,
       releaseDate: release_date,
     };

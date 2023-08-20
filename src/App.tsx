@@ -22,12 +22,12 @@ const App = () => {
   };
 
   const sortByEpisodeAsc = () => {
-    const sortedMovies = [...filteredMovies].sort((a: Movie, b: Movie) => a.episode - b.episode);
+    const sortedMovies = [...filteredMovies].sort((a: Movie, b: Movie) => a.episodeId - b.episodeId);
     setFilteredMovies(sortedMovies);
   };
 
   const sortByEpisodeDesc = () => {
-    const sortedMovies = [...filteredMovies].sort((a: Movie, b: Movie) => b.episode - a.episode);
+    const sortedMovies = [...filteredMovies].sort((a: Movie, b: Movie) => b.episodeId - a.episodeId);
     setFilteredMovies(sortedMovies);
   };
 
@@ -94,17 +94,14 @@ const App = () => {
       <Grid item xs={6}>
         <List>
           {filteredMovies?.map((movie: Movie) => {
-            const { title, episode, releaseDate } = movie;
+            const { title, episodeId, episodeName, releaseDate } = movie;
             return (
               <ListItemButton
-                key={episode}
-                selected={selectedIndex === episode}
-                onClick={event => handleListItemClick(event, episode)}
+                key={episodeId}
+                selected={selectedIndex === episodeId}
+                onClick={event => handleListItemClick(event, episodeId)}
               >
-                <ListItemText
-                  data-testid='list-item-movie'
-                  primary={`EPISODE ${episode} - ${title} - ${releaseDate}`}
-                />
+                <ListItemText data-testid='list-item-movie' primary={`${episodeName} - ${title} - ${releaseDate}`} />
               </ListItemButton>
             );
           })}
@@ -115,8 +112,8 @@ const App = () => {
           <h1>Select a movie to view details</h1>
         ) : (
           <>
-            <h1>{movies?.find((movie: Movie) => movie.episode === selectedIndex)?.title}</h1>
-            <p>{movies?.find((movie: Movie) => movie.episode === selectedIndex)?.description}</p>
+            <h1>{movies?.find((movie: Movie) => movie.episodeId === selectedIndex)?.title}</h1>
+            <p>{movies?.find((movie: Movie) => movie.episodeId === selectedIndex)?.description}</p>
           </>
         )}
       </Grid>

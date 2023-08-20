@@ -94,8 +94,8 @@ describe('App', () => {
     const firstMovie = movies[0];
     const lastMovie = movies.at(-1);
 
-    expect(firstMovie).toHaveTextContent(/Episode 4/i);
-    expect(lastMovie).toHaveTextContent(/Episode 5/i);
+    expect(firstMovie).toHaveTextContent(/EPISODE IV/i);
+    expect(lastMovie).toHaveTextContent(/EPISODE V/i);
   });
 
   it('should sort movies based on episode (descending)', () => {
@@ -108,8 +108,8 @@ describe('App', () => {
     const firstMovie = movies[0];
     const lastMovie = movies.at(-1);
 
-    expect(firstMovie).toHaveTextContent(/Episode 5/i);
-    expect(lastMovie).toHaveTextContent(/Episode 4/i);
+    expect(firstMovie).toHaveTextContent(/EPISODE V/i);
+    expect(lastMovie).toHaveTextContent(/EPISODE IV/i);
   });
 
   it('should filter movies based on text field input', () => {
