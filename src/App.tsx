@@ -1,12 +1,18 @@
 import { Grid, List, ListItemButton, ListItemText } from '@mui/material';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import useFetchMovies from './hooks/useFetchMovies';
+import { Movie } from './types';
 
 const App = () => {
   const [selectedIndex, setSelectedIndex] = useState<number | undefined>();
-  const { data: movies } = useFetchMovies();
+  const [movies, setMovies] = useState<any>([]);
+  const { data } = useFetchMovies();
 
-  const handleListItemClick = (event: React.MouseEvent<HTMLDivElement, MouseEvent>, index: number) => {
+  useEffect(() => {
+    setMovies(data);
+  }, [data]);
+
+  const handleListItemClick = (_event: React.MouseEvent<HTMLDivElement, MouseEvent>, index: number) => {
     setSelectedIndex(index);
   };
 
@@ -14,15 +20,15 @@ const App = () => {
     <Grid container width='100vw'>
       <Grid item xs={6}>
         <List>
-          {movies?.results?.map(movie => {
-            const { title, episode_id } = movie;
+          {movies?.map((movie: Movie) => {
+            const { title, episode, releaseDate } = movie;
             return (
               <ListItemButton
-                key={episode_id}
-                selected={selectedIndex === episode_id}
-                onClick={event => handleListItemClick(event, episode_id)}
+                key={episode}
+                selected={selectedIndex === episode}
+                onClick={event => handleListItemClick(event, episode)}
               >
-                <ListItemText primary={`EPISODE ${episode_id} - ${title}`} />
+                <ListItemText primary={`EPISODE ${episode} - ${title} - ${releaseDate}`} />
               </ListItemButton>
             );
           })}
@@ -33,8 +39,8 @@ const App = () => {
           <h1>Select a movie to view details</h1>
         ) : (
           <>
-            <h1>{movies?.results?.find(movie => movie.episode_id === selectedIndex)?.title}</h1>
-            <p>{movies?.results?.find(movie => movie.episode_id === selectedIndex)?.opening_crawl}</p>
+            <h1>{movies?.find((movie: Movie) => movie.episode === selectedIndex)?.title}</h1>
+            <p>{movies?.find((movie: Movie) => movie.episode === selectedIndex)?.description}</p>
           </>
         )}
       </Grid>
