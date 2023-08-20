@@ -1,4 +1,4 @@
-import { Button, Grid, List, ListItemButton, ListItemText, TextField } from '@mui/material';
+import { Box, Button, Grid, List, ListItemButton, TextField } from '@mui/material';
 import { useEffect, useState } from 'react';
 import useFetchMovies from './hooks/useFetchMovies';
 import { Movie } from './types';
@@ -69,6 +69,7 @@ const App = () => {
           onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
             handleFilterMovies(event);
           }}
+          sx={{ marginTop: '1rem', marginBottom: '1rem' }}
         />
       </Grid>
       <Grid item xs={3}>
@@ -97,11 +98,15 @@ const App = () => {
             const { title, episodeId, episodeName, releaseDate } = movie;
             return (
               <ListItemButton
+                divider
                 key={episodeId}
                 selected={selectedIndex === episodeId}
                 onClick={event => handleListItemClick(event, episodeId)}
+                sx={{ display: 'flex', justifyContent: 'space-between' }}
               >
-                <ListItemText data-testid='list-item-movie' primary={`${episodeName} - ${title} - ${releaseDate}`} />
+                <Box data-testid='list-item-movie'>{episodeName}</Box>
+                <Box data-testid='list-item-movie'>{title}</Box>
+                <Box data-testid='list-item-movie'>{releaseDate}</Box>
               </ListItemButton>
             );
           })}
@@ -111,10 +116,10 @@ const App = () => {
         {!selectedIndex ? (
           <h1>Select a movie to view details</h1>
         ) : (
-          <>
+          <Box padding='0 2rem'>
             <h1>{movies?.find((movie: Movie) => movie.episodeId === selectedIndex)?.title}</h1>
             <p>{movies?.find((movie: Movie) => movie.episodeId === selectedIndex)?.description}</p>
-          </>
+          </Box>
         )}
       </Grid>
     </Grid>
