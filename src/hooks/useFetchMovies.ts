@@ -7,6 +7,7 @@ const ENDPOINT = 'https://swapi.dev/api/films/?format=json';
 const dataTransformer = (data: APIResult | undefined) => {
   return data?.results?.map(movie => {
     const { title, episode_id, opening_crawl, director, producer, release_date } = movie;
+
     return {
       title,
       director,

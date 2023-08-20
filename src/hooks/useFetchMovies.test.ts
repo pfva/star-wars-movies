@@ -24,13 +24,19 @@ describe('useFetchMovies', () => {
     });
   });
 
-  it('should return data', () => {
+  it('should transform and return data', () => {
     const { result } = renderHook(() => useFetchMovies());
     const { data } = result.current;
-    const { count, results } = data || {};
+    const firstMovie = data?.[0];
 
-    expect(count).toBe(1);
-    expect(results?.[0]?.title).toBe('A New Hope');
+    expect(firstMovie).toEqual({
+      description: 'It is a period of civil war. Rebel spaceships, striking from a hidden base',
+      director: 'George Lucas',
+      episode: 4,
+      producer: 'Gary Kurtz, Rick McCallum',
+      releaseDate: '1977-05-25',
+      title: 'A New Hope',
+    });
   });
 
   it('should return error', () => {
