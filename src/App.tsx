@@ -1,15 +1,20 @@
-import { Button, Grid, List, ListItemButton, ListItemText } from '@mui/material';
+import { Button, Grid, List, ListItemButton, ListItemText, TextField } from '@mui/material';
 import { useEffect, useState } from 'react';
 import useFetchMovies from './hooks/useFetchMovies';
 import { Movie } from './types';
 
 const App = () => {
   const [selectedIndex, setSelectedIndex] = useState<number | undefined>();
-  const [movies, setMovies] = useState<any>([]);
+  const [movies, setMovies] = useState<Movie[]>([]);
+  const [filter, setFilter] = useState<string>('');
+  const [filteredMovies, setFilteredMovies] = useState<Movie[]>([]);
   const { data } = useFetchMovies();
 
   useEffect(() => {
-    setMovies(data);
+    if (data) {
+      setMovies(data);
+      setFilteredMovies(data);
+    }
   }, [data]);
 
   const handleListItemClick = (_event: React.MouseEvent<HTMLDivElement, MouseEvent>, index: number) => {
@@ -17,35 +22,55 @@ const App = () => {
   };
 
   const sortByEpisodeAsc = () => {
-    const sortedMovies = [...movies].sort((a: Movie, b: Movie) => a.episode - b.episode);
-    setMovies(sortedMovies);
+    const sortedMovies = [...filteredMovies].sort((a: Movie, b: Movie) => a.episode - b.episode);
+    setFilteredMovies(sortedMovies);
   };
 
   const sortByEpisodeDesc = () => {
-    const sortedMovies = [...movies].sort((a: Movie, b: Movie) => b.episode - a.episode);
-    setMovies(sortedMovies);
+    const sortedMovies = [...filteredMovies].sort((a: Movie, b: Movie) => b.episode - a.episode);
+    setFilteredMovies(sortedMovies);
   };
 
   const sortByYearAsc = () => {
-    const sortedMovies = [...movies].sort((a: Movie, b: Movie) => {
+    const sortedMovies = [...filteredMovies].sort((a: Movie, b: Movie) => {
       const aDate = new Date(a.releaseDate);
       const bDate = new Date(b.releaseDate);
       return aDate.getTime() - bDate.getTime();
     });
-    setMovies(sortedMovies);
+    setFilteredMovies(sortedMovies);
   };
 
   const sortByYearDesc = () => {
-    const sortedMovies = [...movies].sort((a: Movie, b: Movie) => {
+    const sortedMovies = [...filteredMovies].sort((a: Movie, b: Movie) => {
       const aDate = new Date(a.releaseDate);
       const bDate = new Date(b.releaseDate);
       return bDate.getTime() - aDate.getTime();
     });
-    setMovies(sortedMovies);
+    setFilteredMovies(sortedMovies);
+  };
+
+  const handleFilterMovies = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const { value } = event.target;
+    setFilter(value);
+    const filteredMovies = movies.filter((movie: Movie) => {
+      return movie.title.toLowerCase().includes(value.toLowerCase());
+    });
+    setFilteredMovies(filteredMovies);
   };
 
   return (
     <Grid container width='100vw'>
+      <Grid item xs={12}>
+        <TextField
+          value={filter}
+          label='Type to search'
+          variant='outlined'
+          fullWidth
+          onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
+            handleFilterMovies(event);
+          }}
+        />
+      </Grid>
       <Grid item xs={3}>
         <Button variant='contained' onClick={sortByEpisodeAsc}>
           Sort by episode (ascending)
@@ -68,7 +93,7 @@ const App = () => {
       </Grid>
       <Grid item xs={6}>
         <List>
-          {movies?.map((movie: Movie) => {
+          {filteredMovies?.map((movie: Movie) => {
             const { title, episode, releaseDate } = movie;
             return (
               <ListItemButton

@@ -1,4 +1,4 @@
-import { render, screen } from '@testing-library/react';
+import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { useFetch } from 'usehooks-ts';
 import App from './App';
@@ -116,10 +116,13 @@ describe('App', () => {
     const user = userEvent.setup();
     render(<App />);
 
-    const searchField = screen.getByPlaceholderText(/Type to search/i);
+    const searchField = screen.getAllByText(/Type to search/i)[1];
     user.type(searchField, 'Empire');
 
-    expect(screen.getAllByRole('button')).toHaveLength(1);
-    expect(screen.getAllByRole('button')[0]).toHaveTextContent(/The Empire Strikes Back/i);
+    const movies = screen.getAllByTestId('list-item-movie');
+    const firstMovie = movies[0];
+
+    waitFor(() => expect(movies).toHaveLength(1));
+    waitFor(() => expect(firstMovie).toHaveTextContent(/The Empire Strikes Back/i));
   });
 });
