@@ -37,21 +37,19 @@ describe('App', () => {
     render(<App />);
 
     expect(screen.getByText(/A New Hope/i)).toBeInTheDocument();
-    expect(screen.getAllByRole('button')).toHaveLength(2);
+    expect(screen.getAllByTestId('list-item-movie')).toHaveLength(2);
   });
 
   it('should render movie details when a movie is selected', async () => {
     const user = userEvent.setup();
     render(<App />);
 
-    const movies = screen.getAllByRole('button');
+    const movies = screen.getAllByTestId('list-item-movie');
     const firstMovie = movies[0];
 
     await user.click(firstMovie);
 
-    expect(
-      screen.getByText(/It is a period of civil war. Rebel spaceships, striking from a hidden base/i)
-    ).toBeInTheDocument();
+    expect(screen.getByText(/It is a period of civil war/i)).toBeInTheDocument();
   });
 
   it('should render default text if no movie is selected', () => {
@@ -63,55 +61,55 @@ describe('App', () => {
   it('should sort movies based on year (ascending) by default', () => {
     render(<App />);
 
-    const movies = screen.getAllByRole('button');
+    const movies = screen.getAllByTestId('list-item-movie');
     const firstMovie = movies[0];
     const lastMovie = movies.at(-1);
 
-    expect(firstMovie).toHaveTextContent(/A New Hope/i);
-    expect(lastMovie).toHaveTextContent(/The Empire Strikes Back/i);
+    expect(firstMovie).toHaveTextContent(/1977-05-25/i);
+    expect(lastMovie).toHaveTextContent(/1980-05-17/i);
   });
 
   it('should sort movies based on year (descending)', async () => {
     const user = userEvent.setup();
     render(<App />);
 
-    const sortButton = screen.getByText(/Sort by year (descending)/i);
+    const sortButton = screen.getByText(/Sort by year \(descending\)/i);
     await user.click(sortButton);
 
-    const movies = screen.getAllByRole('button');
+    const movies = screen.getAllByTestId('list-item-movie');
     const firstMovie = movies[0];
     const lastMovie = movies.at(-1);
 
-    expect(firstMovie).toHaveTextContent(/Revenge of the Sith/i);
-    expect(lastMovie).toHaveTextContent(/A New Hope/i);
+    expect(firstMovie).toHaveTextContent(/1980-05-17/i);
+    expect(lastMovie).toHaveTextContent(/1977-05-25/i);
   });
 
   it('should sort movies based on episode (ascending)', () => {
     render(<App />);
 
-    const sortButton = screen.getByText(/Sort by episode (ascending)/i);
+    const sortButton = screen.getByText(/Sort by episode \(ascending\)/i);
     sortButton.click();
 
-    const movies = screen.getAllByRole('button');
+    const movies = screen.getAllByTestId('list-item-movie');
     const firstMovie = movies[0];
     const lastMovie = movies.at(-1);
 
-    expect(firstMovie).toHaveTextContent(/The Phantom Menace/i);
-    expect(lastMovie).toHaveTextContent(/Return of the Jedi/i);
+    expect(firstMovie).toHaveTextContent(/Episode 4/i);
+    expect(lastMovie).toHaveTextContent(/Episode 5/i);
   });
 
   it('should sort movies based on episode (descending)', () => {
     render(<App />);
 
-    const sortButton = screen.getByText(/Sort by episode (descending)/i);
+    const sortButton = screen.getByText(/Sort by episode \(descending\)/i);
     sortButton.click();
 
-    const movies = screen.getAllByRole('button');
+    const movies = screen.getAllByTestId('list-item-movie');
     const firstMovie = movies[0];
     const lastMovie = movies.at(-1);
 
-    expect(firstMovie).toHaveTextContent(/The Phantom Menace/i);
-    expect(lastMovie).toHaveTextContent(/Return of the Jedi/i);
+    expect(firstMovie).toHaveTextContent(/Episode 5/i);
+    expect(lastMovie).toHaveTextContent(/Episode 4/i);
   });
 
   it('should filter movies based on text field input', () => {

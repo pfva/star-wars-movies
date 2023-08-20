@@ -1,4 +1,4 @@
-import { Grid, List, ListItemButton, ListItemText } from '@mui/material';
+import { Button, Grid, List, ListItemButton, ListItemText } from '@mui/material';
 import { useEffect, useState } from 'react';
 import useFetchMovies from './hooks/useFetchMovies';
 import { Movie } from './types';
@@ -16,8 +16,56 @@ const App = () => {
     setSelectedIndex(index);
   };
 
+  const sortByEpisodeAsc = () => {
+    const sortedMovies = [...movies].sort((a: Movie, b: Movie) => a.episode - b.episode);
+    setMovies(sortedMovies);
+  };
+
+  const sortByEpisodeDesc = () => {
+    const sortedMovies = [...movies].sort((a: Movie, b: Movie) => b.episode - a.episode);
+    setMovies(sortedMovies);
+  };
+
+  const sortByYearAsc = () => {
+    const sortedMovies = [...movies].sort((a: Movie, b: Movie) => {
+      const aDate = new Date(a.releaseDate);
+      const bDate = new Date(b.releaseDate);
+      return aDate.getTime() - bDate.getTime();
+    });
+    setMovies(sortedMovies);
+  };
+
+  const sortByYearDesc = () => {
+    const sortedMovies = [...movies].sort((a: Movie, b: Movie) => {
+      const aDate = new Date(a.releaseDate);
+      const bDate = new Date(b.releaseDate);
+      return bDate.getTime() - aDate.getTime();
+    });
+    setMovies(sortedMovies);
+  };
+
   return (
     <Grid container width='100vw'>
+      <Grid item xs={3}>
+        <Button variant='contained' onClick={sortByEpisodeAsc}>
+          Sort by episode (ascending)
+        </Button>
+      </Grid>
+      <Grid item xs={3}>
+        <Button variant='contained' onClick={sortByEpisodeDesc}>
+          Sort by episode (descending)
+        </Button>
+      </Grid>
+      <Grid item xs={3}>
+        <Button variant='contained' onClick={sortByYearAsc}>
+          Sort by year (ascending)
+        </Button>
+      </Grid>
+      <Grid item xs={3}>
+        <Button variant='contained' onClick={sortByYearDesc}>
+          Sort by year (descending)
+        </Button>
+      </Grid>
       <Grid item xs={6}>
         <List>
           {movies?.map((movie: Movie) => {
@@ -28,7 +76,10 @@ const App = () => {
                 selected={selectedIndex === episode}
                 onClick={event => handleListItemClick(event, episode)}
               >
-                <ListItemText primary={`EPISODE ${episode} - ${title} - ${releaseDate}`} />
+                <ListItemText
+                  data-testid='list-item-movie'
+                  primary={`EPISODE ${episode} - ${title} - ${releaseDate}`}
+                />
               </ListItemButton>
             );
           })}
