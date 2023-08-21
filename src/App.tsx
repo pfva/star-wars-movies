@@ -1,5 +1,6 @@
-import { Box, Grid, List, ListItemButton, TextField } from '@mui/material';
+import { Box, Grid, List, ListItemButton } from '@mui/material';
 import { useEffect, useState } from 'react';
+import SearchField from './components/SearchField/SearchField';
 import SortButton from './components/SortButton/SortButton';
 import useFetchMovies from './hooks/useFetchMovies';
 import { Movie } from './types';
@@ -7,7 +8,6 @@ import { Movie } from './types';
 const App = () => {
   const [selectedIndex, setSelectedIndex] = useState<number | undefined>();
   const [movies, setMovies] = useState<Movie[]>([]);
-  const [filter, setFilter] = useState<string>('');
   const [filteredMovies, setFilteredMovies] = useState<Movie[]>([]);
   const { data } = useFetchMovies();
 
@@ -22,31 +22,13 @@ const App = () => {
     setSelectedIndex(index);
   };
 
-  const handleFilterMovies = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const { value } = event.target;
-    setFilter(value);
-    const filteredMovies = movies.filter((movie: Movie) => {
-      return movie.title.toLowerCase().includes(value.toLowerCase());
-    });
-    setFilteredMovies(filteredMovies);
-  };
-
   return (
     <Grid container width='100vw'>
       <Grid item xs={2}>
         <SortButton filteredMovies={filteredMovies} setFilteredMovies={setFilteredMovies} />
       </Grid>
       <Grid item xs={10}>
-        <TextField
-          value={filter}
-          label='Type to search'
-          variant='outlined'
-          fullWidth
-          onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
-            handleFilterMovies(event);
-          }}
-          sx={{ marginTop: '1rem', marginBottom: '1rem' }}
-        />
+        <SearchField movies={movies} setFilteredMovies={setFilteredMovies} />
       </Grid>
       <Grid item xs={6}>
         <List>
