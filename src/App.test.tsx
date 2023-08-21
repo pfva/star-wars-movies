@@ -124,7 +124,7 @@ describe('App', () => {
     const user = userEvent.setup();
     render(<App />);
 
-    const searchField = screen.getAllByText(/Type to search/i)[1];
+    const searchField = screen.getByTestId('search-field');
     user.type(searchField, 'Empire');
 
     const movies = screen.getAllByTestId('movie-title');

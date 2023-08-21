@@ -36,7 +36,7 @@ describe('SearchField', () => {
     render(<SearchField movies={movies} setFilteredMovies={setFilteredMovies} />);
 
     const firstMovie = movies[0];
-    const searchField = screen.getAllByText(/Type to search/i)[1];
+    const searchField = screen.getByTestId('search-field');
     user.type(searchField, 'Hope');
 
     waitFor(() => expect(setFilteredMovies).toHaveBeenCalledWith([firstMovie]));

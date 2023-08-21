@@ -1,6 +1,29 @@
-import { TextField } from '@mui/material';
+import SearchIcon from '@mui/icons-material/Search';
+import { InputAdornment, TextField, styled } from '@mui/material';
 import React, { useState } from 'react';
 import { Movie } from '../../types';
+
+const StyledTextField = styled(TextField)({
+  backgroundColor: '#F5F5F5',
+  borderRadius: '0.3rem',
+  '& label.Mui-focused': {
+    color: '#A0AAB4',
+  },
+  '& .MuiInput-underline:after': {
+    borderBottomColor: '#B2BAC2',
+  },
+  '& .MuiOutlinedInput-root': {
+    '& fieldset': {
+      borderColor: '#E0E3E7',
+    },
+    '&:hover fieldset': {
+      borderColor: '#B2BAC2',
+    },
+    '&.Mui-focused fieldset': {
+      borderColor: '#6F7E8C',
+    },
+  },
+});
 
 interface SearchFieldProps {
   movies: Movie[];
@@ -20,13 +43,21 @@ const SearchField = ({ movies, setFilteredMovies }: SearchFieldProps) => {
   };
 
   return (
-    <TextField
+    <StyledTextField
       value={filter}
-      label='Type to search'
       variant='outlined'
       onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
         handleFilterMovies(event);
       }}
+      data-testid='search-field'
+      InputProps={{
+        startAdornment: (
+          <InputAdornment position='start'>
+            <SearchIcon />
+          </InputAdornment>
+        ),
+      }}
+      sx={{ width: '50%', marginTop: '2rem', marginBottom: '1rem', color: 'white' }}
     />
   );
 };

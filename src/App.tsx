@@ -1,4 +1,4 @@
-import { Box, Grid, List, ListItemButton } from '@mui/material';
+import { Box, Grid, List, ListItemButton, Typography } from '@mui/material';
 import { useEffect, useState } from 'react';
 import SearchField from './components/SearchField/SearchField';
 import SortButton from './components/SortButton/SortButton';
@@ -24,11 +24,14 @@ const App = () => {
 
   return (
     <Grid container width='100vw'>
-      <Grid item xs={2}>
-        <SortButton filteredMovies={filteredMovies} setFilteredMovies={setFilteredMovies} />
-      </Grid>
-      <Grid item xs={10}>
+      <Typography variant='h3' component='h1' sx={{ fontFamily: 'Montserrat', fontWeight: 700, margin: '2rem auto' }}>
+        Find your favorite Star Wars movie
+      </Typography>
+      <Grid item xs={12} display='flex' justifyContent='center'>
         <SearchField movies={movies} setFilteredMovies={setFilteredMovies} />
+      </Grid>
+      <Grid item xs={12}>
+        <SortButton filteredMovies={filteredMovies} setFilteredMovies={setFilteredMovies} />
       </Grid>
       <Grid item xs={6}>
         <List>
@@ -55,7 +58,7 @@ const App = () => {
           <h1>Select a movie to view details</h1>
         ) : (
           <Box padding='0 2rem'>
-            <h1>{movies?.find((movie: Movie) => movie.episodeId === selectedIndex)?.title}</h1>
+            <h2>{movies?.find((movie: Movie) => movie.episodeId === selectedIndex)?.title}</h2>
             <p>{movies?.find((movie: Movie) => movie.episodeId === selectedIndex)?.description}</p>
           </Box>
         )}
