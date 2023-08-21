@@ -1,14 +1,14 @@
-import { Box, Button, Grid, List, ListItemButton, ListItemText, Popover, TextField } from '@mui/material';
+import { Box, Grid, List, ListItemButton, TextField } from '@mui/material';
 import { useEffect, useState } from 'react';
+import SortButton from './components/SortButton/SortButton';
 import useFetchMovies from './hooks/useFetchMovies';
-import { Movie, SortOptions, SortOrder } from './types';
+import { Movie } from './types';
 
 const App = () => {
   const [selectedIndex, setSelectedIndex] = useState<number | undefined>();
   const [movies, setMovies] = useState<Movie[]>([]);
   const [filter, setFilter] = useState<string>('');
   const [filteredMovies, setFilteredMovies] = useState<Movie[]>([]);
-  const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null);
   const { data } = useFetchMovies();
 
   useEffect(() => {
@@ -18,48 +18,8 @@ const App = () => {
     }
   }, [data]);
 
-  const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
-    setAnchorEl(event.currentTarget);
-  };
-
-  const handleClose = () => {
-    setAnchorEl(null);
-  };
-
-  const open = Boolean(anchorEl);
-  const id = open ? 'simple-popover' : undefined;
-
   const handleListItemClick = (_event: React.MouseEvent<HTMLDivElement, MouseEvent>, index: number) => {
     setSelectedIndex(index);
-  };
-
-  const getSortFn = (_event: React.MouseEvent<HTMLDivElement, MouseEvent>, key: string, order: SortOrder) => {
-    switch (key) {
-      case 'episode':
-        return sortByEpisode(order);
-      case 'year':
-        return sortByYear(order);
-      default:
-        return;
-    }
-  };
-
-  const sortByEpisode = (order: SortOrder) => {
-    const sortedMovies = [...filteredMovies].sort((a: Movie, b: Movie) =>
-      order === 'ascending' ? a.episodeId - b.episodeId : b.episodeId - a.episodeId
-    );
-    setFilteredMovies(sortedMovies);
-    handleClose();
-  };
-
-  const sortByYear = (order: SortOrder) => {
-    const sortedMovies = [...filteredMovies].sort((a: Movie, b: Movie) => {
-      const aDate = new Date(a.releaseDate);
-      const bDate = new Date(b.releaseDate);
-      return order === 'ascending' ? aDate.getTime() - bDate.getTime() : bDate.getTime() - aDate.getTime();
-    });
-    setFilteredMovies(sortedMovies);
-    handleClose();
   };
 
   const handleFilterMovies = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -71,44 +31,10 @@ const App = () => {
     setFilteredMovies(filteredMovies);
   };
 
-  const sortOptions: SortOptions[] = [
-    { key: 'episode', order: 'ascending' },
-    { key: 'episode', order: 'descending' },
-    { key: 'year', order: 'ascending' },
-    { key: 'year', order: 'descending' },
-  ];
-
   return (
     <Grid container width='100vw'>
       <Grid item xs={2}>
-        <Button aria-describedby={id} variant='contained' onClick={handleClick}>
-          Sort by
-        </Button>
-        <Popover
-          id={id}
-          open={open}
-          anchorEl={anchorEl}
-          onClose={handleClose}
-          anchorOrigin={{
-            vertical: 'bottom',
-            horizontal: 'left',
-          }}
-          transformOrigin={{
-            vertical: 'top',
-            horizontal: 'left',
-          }}
-        >
-          <List>
-            {sortOptions.map(option => {
-              const { key, order } = option;
-              return (
-                <ListItemButton onClick={event => getSortFn(event, key, order)} key={key + order}>
-                  <ListItemText primary={`Sort by ${key} (${order})`} />
-                </ListItemButton>
-              );
-            })}
-          </List>
-        </Popover>
+        <SortButton filteredMovies={filteredMovies} setFilteredMovies={setFilteredMovies} />
       </Grid>
       <Grid item xs={10}>
         <TextField

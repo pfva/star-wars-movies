@@ -6,7 +6,7 @@ export interface APIResult {
 export interface Result {
   title: string;
   episode_id: number;
-  opening_crawl: number;
+  opening_crawl: string;
   director: string;
   producer: string;
   release_date: string;
@@ -18,7 +18,7 @@ export interface Movie {
   producer: string;
   episodeId: number;
   episodeName: string;
-  description: number;
+  description: string;
   releaseDate: string;
 }
 
