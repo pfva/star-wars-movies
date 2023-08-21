@@ -37,14 +37,14 @@ describe('App', () => {
     render(<App />);
 
     expect(screen.getByText(/A New Hope/i)).toBeInTheDocument();
-    expect(screen.getAllByTestId('list-item-movie')).toHaveLength(2);
+    expect(screen.getAllByTestId('movie-episode-name')).toHaveLength(2);
   });
 
   it('should render movie details when a movie is selected', async () => {
     const user = userEvent.setup();
     render(<App />);
 
-    const movies = screen.getAllByTestId('list-item-movie');
+    const movies = screen.getAllByTestId('movie-episode-name');
     const firstMovie = movies[0];
 
     await user.click(firstMovie);
@@ -61,7 +61,7 @@ describe('App', () => {
   it('should sort movies based on year (ascending) by default', () => {
     render(<App />);
 
-    const movies = screen.getAllByTestId('list-item-movie');
+    const movies = screen.getAllByTestId('movie-release-date');
     const firstMovie = movies[0];
     const lastMovie = movies.at(-1);
 
@@ -73,10 +73,12 @@ describe('App', () => {
     const user = userEvent.setup();
     render(<App />);
 
-    const sortButton = screen.getByText(/Sort by year \(descending\)/i);
+    const sortButton = screen.getByText(/Sort by/i);
     await user.click(sortButton);
+    const sortOption = screen.getByText(/Sort by year \(descending\)/i);
+    await user.click(sortOption);
 
-    const movies = screen.getAllByTestId('list-item-movie');
+    const movies = screen.getAllByTestId('movie-release-date');
     const firstMovie = movies[0];
     const lastMovie = movies.at(-1);
 
@@ -84,13 +86,16 @@ describe('App', () => {
     expect(lastMovie).toHaveTextContent(/1977-05-25/i);
   });
 
-  it('should sort movies based on episode (ascending)', () => {
+  it('should sort movies based on episode (ascending)', async () => {
+    const user = userEvent.setup();
     render(<App />);
 
-    const sortButton = screen.getByText(/Sort by episode \(ascending\)/i);
-    sortButton.click();
+    const sortButton = screen.getByText(/Sort by/i);
+    await user.click(sortButton);
+    const sortOption = screen.getByText(/Sort by episode \(ascending\)/i);
+    await user.click(sortOption);
 
-    const movies = screen.getAllByTestId('list-item-movie');
+    const movies = screen.getAllByTestId('movie-episode-name');
     const firstMovie = movies[0];
     const lastMovie = movies.at(-1);
 
@@ -98,13 +103,16 @@ describe('App', () => {
     expect(lastMovie).toHaveTextContent(/EPISODE V/i);
   });
 
-  it('should sort movies based on episode (descending)', () => {
+  it('should sort movies based on episode (descending)', async () => {
+    const user = userEvent.setup();
     render(<App />);
 
-    const sortButton = screen.getByText(/Sort by episode \(descending\)/i);
-    sortButton.click();
+    const sortButton = screen.getByText(/Sort by/i);
+    await user.click(sortButton);
+    const sortOption = screen.getByText(/Sort by episode \(descending\)/i);
+    await user.click(sortOption);
 
-    const movies = screen.getAllByTestId('list-item-movie');
+    const movies = screen.getAllByTestId('movie-episode-name');
     const firstMovie = movies[0];
     const lastMovie = movies.at(-1);
 
@@ -119,7 +127,7 @@ describe('App', () => {
     const searchField = screen.getAllByText(/Type to search/i)[1];
     user.type(searchField, 'Empire');
 
-    const movies = screen.getAllByTestId('list-item-movie');
+    const movies = screen.getAllByTestId('movie-title');
     const firstMovie = movies[0];
 
     waitFor(() => expect(movies).toHaveLength(1));

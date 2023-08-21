@@ -21,3 +21,12 @@ export interface Movie {
   description: number;
   releaseDate: string;
 }
+
+export type SortKey = 'episode' | 'year';
+
+export type SortOrder = 'ascending' | 'descending';
+
+export interface SortOptions {
+  key: SortKey;
+  order: SortOrder;
+}
