@@ -15,3 +15,9 @@ body {
   margin: 0;
   display: flex;
 }
+
+h1 {
+  font-family: 'GoldMan', Inter, system-ui, sans-serif;
+  font-weight: 700;
+  font-size: 3.5rem;
+}

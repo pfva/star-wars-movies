@@ -59,42 +59,44 @@ const SortButton = ({ filteredMovies, setFilteredMovies }: SortButtonProps) => {
   };
 
   return (
-    <>
-      <StyledSortButton
-        size='large'
-        aria-describedby={id}
-        variant='outlined'
-        onClick={handlePopoverOpen}
-        startIcon={<FilterListIcon />}
-      >
-        Sort by
-      </StyledSortButton>
-      <Popover
-        id={id}
-        open={open}
-        anchorEl={anchorEl}
-        onClose={handlePopoverClose}
-        anchorOrigin={{
-          vertical: 'top',
-          horizontal: 'center',
-        }}
-        transformOrigin={{
-          vertical: 'bottom',
-          horizontal: 'center',
-        }}
-      >
-        <List>
-          {sortOptions.map(option => {
-            const { key, order } = option;
-            return (
-              <ListItemButton onClick={event => getSortFn(event, key, order)} key={key + order}>
-                <ListItemText primary={`Sort by ${key} (${order})`} />
-              </ListItemButton>
-            );
-          })}
-        </List>
-      </Popover>
-    </>
+    filteredMovies.length > 0 && (
+      <>
+        <StyledSortButton
+          size='large'
+          aria-describedby={id}
+          variant='outlined'
+          onClick={handlePopoverOpen}
+          startIcon={<FilterListIcon />}
+        >
+          Sort by
+        </StyledSortButton>
+        <Popover
+          id={id}
+          open={open}
+          anchorEl={anchorEl}
+          onClose={handlePopoverClose}
+          anchorOrigin={{
+            vertical: 'top',
+            horizontal: 'center',
+          }}
+          transformOrigin={{
+            vertical: 'bottom',
+            horizontal: 'center',
+          }}
+        >
+          <List>
+            {sortOptions.map(option => {
+              const { key, order } = option;
+              return (
+                <ListItemButton onClick={event => getSortFn(event, key, order)} key={key + order}>
+                  <ListItemText primary={`Sort by ${key} (${order})`} />
+                </ListItemButton>
+              );
+            })}
+          </List>
+        </Popover>
+      </>
+    )
   );
 };
 

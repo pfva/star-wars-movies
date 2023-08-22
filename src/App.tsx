@@ -22,7 +22,7 @@ const App = () => {
 
   return (
     <Grid container width='100vw'>
-      <Box sx={{ fontWeight: 700, margin: '2rem auto' }}>
+      <Box sx={{ margin: '0 auto' }}>
         <h1>Find your favorite Star Wars movie</h1>
       </Box>
       <Grid item xs={12} display='flex' justifyContent='center'>
