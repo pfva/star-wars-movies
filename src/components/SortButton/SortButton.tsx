@@ -1,16 +1,8 @@
-import { Button, List, ListItemButton, ListItemText, Popover, styled } from '@mui/material';
 import FilterListIcon from '@mui/icons-material/FilterList';
+import { List, ListItemButton, ListItemText, Popover } from '@mui/material';
 import { useState } from 'react';
 import { Movie, SortOptions, SortOrder } from '../../types';
-
-const StyledSortButton = styled(Button)({
-  margin: '1rem',
-  color: '#A0AAB4',
-  borderColor: '#6F7E8C',
-  '&:hover': {
-    borderColor: '#B2BAC2',
-  },
-});
+import StyledSortButton from './styles';
 
 const sortOptions: SortOptions[] = [
   { key: 'episode', order: 'ascending' },
