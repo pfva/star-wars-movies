@@ -1,6 +1,7 @@
-import { Box, Grid, List, ListItemButton } from '@mui/material';
+import { Box, Grid } from '@mui/material';
 import { useEffect, useState } from 'react';
 import MovieDetails from './components/MovieDetails/MovieDetails';
+import MovieList from './components/MovieList/MovieList';
 import SearchField from './components/SearchField/SearchField';
 import SortButton from './components/SortButton/SortButton';
 import useFetchMovies from './hooks/useFetchMovies';
@@ -19,10 +20,6 @@ const App = () => {
     }
   }, [data]);
 
-  const handleListItemClick = (_event: React.MouseEvent<HTMLDivElement, MouseEvent>, index: number) => {
-    setSelectedIndex(index);
-  };
-
   return (
     <Grid container width='100vw'>
       <Box sx={{ fontWeight: 700, margin: '2rem auto' }}>
@@ -35,24 +32,7 @@ const App = () => {
         <SortButton filteredMovies={filteredMovies} setFilteredMovies={setFilteredMovies} />
       </Grid>
       <Grid item xs={6}>
-        <List>
-          {filteredMovies?.map((movie: Movie) => {
-            const { title, episodeId, episodeName, releaseDate } = movie;
-            return (
-              <ListItemButton
-                divider
-                key={episodeId}
-                selected={selectedIndex === episodeId}
-                onClick={event => handleListItemClick(event, episodeId)}
-                sx={{ display: 'flex', justifyContent: 'space-between' }}
-              >
-                <Box data-testid='movie-episode-name'>{episodeName}</Box>
-                <Box data-testid='movie-title'>{title}</Box>
-                <Box data-testid='movie-release-date'>{releaseDate}</Box>
-              </ListItemButton>
-            );
-          })}
-        </List>
+        <MovieList filteredMovies={filteredMovies} selectedIndex={selectedIndex} setSelectedIndex={setSelectedIndex} />
       </Grid>
       <Grid item xs={6}>
         <MovieDetails selectedIndex={selectedIndex} movies={movies} />

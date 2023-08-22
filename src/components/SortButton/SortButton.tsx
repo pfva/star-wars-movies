@@ -83,12 +83,12 @@ const SortButton = ({ filteredMovies, setFilteredMovies }: SortButtonProps) => {
         anchorEl={anchorEl}
         onClose={handlePopoverClose}
         anchorOrigin={{
-          vertical: 'bottom',
-          horizontal: 'left',
+          vertical: 'top',
+          horizontal: 'center',
         }}
         transformOrigin={{
-          vertical: 'top',
-          horizontal: 'left',
+          vertical: 'bottom',
+          horizontal: 'center',
         }}
       >
         <List>

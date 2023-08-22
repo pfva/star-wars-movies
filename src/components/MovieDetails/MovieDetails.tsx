@@ -23,4 +23,5 @@ const MovieDetails = ({ selectedIndex, movies }: MovieDetailsProps) => {
     </Box>
   );
 };
+
 export default MovieDetails;
