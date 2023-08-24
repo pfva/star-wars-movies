@@ -1,9 +1,9 @@
 import { render, screen } from '@testing-library/react';
 import { Movie } from '../../types';
 import MovieDetails from './MovieDetails';
-import useGetRatings from '../../hooks/useGetRatings';
+import useGetMovieMetadata from '../../hooks/useGetMovieMetadata';
 
-jest.mock('../../hooks/useGetRatings', () => ({
+jest.mock('../../hooks/useGetMovieMetadata', () => ({
   __esModule: true,
   default: jest.fn(),
 }));
@@ -20,7 +20,7 @@ const selectedMovie: Movie = {
 
 describe('MovieDetails', () => {
   beforeEach(() => {
-    (useGetRatings as jest.Mock).mockReturnValue({
+    (useGetMovieMetadata as jest.Mock).mockReturnValue({
       data: [
         {
           source: 'Internet Movie Database',

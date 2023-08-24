@@ -4,7 +4,7 @@ import { useMemo } from 'react';
 
 const URL = `https://www.omdbapi.com/?apikey=${import.meta.env.VITE_OMDB_API_KEY}&`;
 
-const transformData = (data: RatingResult | undefined) => {
+const transformRatingsData = (data: RatingResult | undefined) => {
   return data?.Ratings?.map(rating => {
     const { Source, Value } = rating;
 
@@ -15,13 +15,17 @@ const transformData = (data: RatingResult | undefined) => {
   });
 };
 
-const useGetRatings = (movie: Movie | undefined) => {
+const transformPosterData = (data: RatingResult | undefined) => {
+  return data?.Poster;
+};
+
+const useGetMovieMetadata = (movie: Movie | undefined) => {
   const { title, releaseDate } = movie || {};
   const year = releaseDate?.split('-')[0];
   const endpoint = `${URL}t=${title}&y=${year}`;
   const { data } = useFetch<RatingResult>(endpoint); // The useFetch hook handles caching internally
 
-  return useMemo(() => ({ data: transformData(data) }), [data]);
+  return useMemo(() => ({ ratings: transformRatingsData(data), poster: transformPosterData(data) }), [data]);
 };
 
-export default useGetRatings;
+export default useGetMovieMetadata;

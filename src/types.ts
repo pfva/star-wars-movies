@@ -14,6 +14,7 @@ export interface Result {
 
 export interface RatingResult {
   Ratings: Rating[];
+  Poster: string;
 }
 
 export interface Rating {

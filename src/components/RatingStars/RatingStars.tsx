@@ -11,7 +11,7 @@ const RatingStars = ({ averageRating }: RatingStarsProps) => {
   const emptyStars = 10 - filledStars;
 
   return (
-    <Box display='flex' alignItems='center'>
+    <Box display='flex' alignItems='center' marginTop='-1rem'>
       <p>Average rating: &nbsp;</p>
       {[...Array(filledStars)].map((_, index) => (
         <StarIcon key={index} data-testid='filled-star' sx={{ color: '#f2e33d' }} />
