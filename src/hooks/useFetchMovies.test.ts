@@ -20,7 +20,6 @@ describe('useFetchMovies', () => {
           },
         ],
       },
-      error: undefined,
     });
   });
 
@@ -38,12 +37,5 @@ describe('useFetchMovies', () => {
       releaseDate: '1977-05-25',
       title: 'A New Hope',
     });
-  });
-
-  it('should return error', () => {
-    const { result } = renderHook(() => useFetchMovies());
-    const { error } = result.current;
-
-    expect(error).toBe(undefined);
   });
 });

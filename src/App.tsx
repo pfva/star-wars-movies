@@ -11,6 +11,7 @@ const App = () => {
   const [selectedIndex, setSelectedIndex] = useState<number | undefined>();
   const [movies, setMovies] = useState<Movie[]>([]);
   const [filteredMovies, setFilteredMovies] = useState<Movie[]>([]);
+  const selectedMovie = movies?.find((movie: Movie) => movie.episodeId === selectedIndex);
   const { data } = useFetchMovies();
 
   useEffect(() => {
@@ -35,7 +36,7 @@ const App = () => {
         <MovieList filteredMovies={filteredMovies} selectedIndex={selectedIndex} setSelectedIndex={setSelectedIndex} />
       </Grid>
       <Grid item xs={6}>
-        <MovieDetails selectedIndex={selectedIndex} movies={movies} />
+        <MovieDetails selectedMovie={selectedMovie} />
       </Grid>
     </Grid>
   );

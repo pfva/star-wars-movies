@@ -12,6 +12,15 @@ export interface Result {
   release_date: string;
 }
 
+export interface RatingResult {
+  Ratings: Rating[];
+}
+
+export interface Rating {
+  Source: string;
+  Value: string;
+}
+
 export interface Movie {
   title: string;
   director: string;

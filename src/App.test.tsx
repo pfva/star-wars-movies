@@ -2,8 +2,13 @@ import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { useFetch } from 'usehooks-ts';
 import App from './App';
+import useGetRatings from './hooks/useGetRatings';
 
 jest.mock('usehooks-ts');
+jest.mock('./hooks/useGetRatings', () => ({
+  __esModule: true,
+  default: jest.fn(),
+}));
 
 describe('App', () => {
   beforeEach(() => {
@@ -30,6 +35,14 @@ describe('App', () => {
         ],
       },
       error: undefined,
+    });
+    (useGetRatings as jest.Mock).mockReturnValue({
+      data: [
+        {
+          source: 'Internet Movie Database',
+          value: '8.6/10',
+        },
+      ],
     });
   });
 

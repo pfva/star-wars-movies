@@ -5,7 +5,7 @@ import { makeRomanNumeral } from '../utils';
 
 const ENDPOINT = 'https://swapi.dev/api/films/?format=json';
 
-const dataTransformer = (data: APIResult | undefined) => {
+const transformData = (data: APIResult | undefined) => {
   return data?.results?.map(movie => {
     const { title, episode_id, opening_crawl, director, producer, release_date } = movie;
     const episodeName = `EPISODE ${makeRomanNumeral(episode_id)}`;
@@ -23,15 +23,9 @@ const dataTransformer = (data: APIResult | undefined) => {
 };
 
 const useFetchMovies = () => {
-  const { data, error } = useFetch<APIResult>(ENDPOINT); // The useFetch hook handles caching internally
+  const { data } = useFetch<APIResult>(ENDPOINT); // The useFetch hook handles caching internally
 
-  return useMemo(
-    () => ({
-      data: dataTransformer(data),
-      error,
-    }),
-    [data, error]
-  );
+  return useMemo(() => ({ data: transformData(data) }), [data]);
 };
 
 export default useFetchMovies;
