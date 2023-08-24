@@ -37,12 +37,4 @@ describe('MovieDetails', () => {
 
     expect(message).toBeInTheDocument();
   });
-
-  it('should render a message when no movie is selected', () => {
-    render(<MovieDetails selectedMovie={undefined} />);
-
-    const message = screen.getByText(/Select a movie to view details/i);
-
-    expect(message).toBeInTheDocument();
-  });
 });

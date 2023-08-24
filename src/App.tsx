@@ -36,7 +36,9 @@ const App = () => {
         <MovieList filteredMovies={filteredMovies} selectedIndex={selectedIndex} setSelectedIndex={setSelectedIndex} />
       </Grid>
       <Grid item xs={6}>
-        <MovieDetails selectedMovie={selectedMovie} />
+        <Box padding='0 2rem'>
+          {selectedMovie ? <MovieDetails selectedMovie={selectedMovie} /> : <h2>Select a movie to view details</h2>}
+        </Box>
       </Grid>
     </Grid>
   );
