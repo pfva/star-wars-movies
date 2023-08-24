@@ -1,27 +1,20 @@
-# React + TypeScript + Vite
+# Star Wars Movies Project
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+This is a small demo project, showcasing the amazing old Star Wars movies.
 
-Currently, two official plugins are available:
+You can search for a particular movie and sort the list of movies based on a few different criteria.
+You can also view the movie details, poster and ratings for each one.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## How to start the project
 
-## Expanding the ESLint configuration
+1. Run `npm i` to install the dependencies
+2. Run `npm run build` to create an optimized production build to preview
+3. Run `npm run preview` and navigate to the assigned localhost port to view the project
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+## Potential future improvements
 
-- Configure the top-level `parserOptions` property like this:
-
-```js
-   parserOptions: {
-    ecmaVersion: 'latest',
-    sourceType: 'module',
-    project: ['./tsconfig.json', './tsconfig.node.json'],
-    tsconfigRootDir: __dirname,
-   },
-```
-
-- Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`
-- Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
+- Filter movies by director, producer, description
+- Add error handling
+- Merge ratings & poster data with the movie data structure on app load
+- Beautify the UI further
+- Rebuild the project as an SSR (e.g. with Next.js) to fetch the data at build time (since the site is mostly static anyways)
