@@ -1,5 +1,6 @@
 import { Box, Grid } from '@mui/material';
 import { useEffect, useState } from 'react';
+import LoadingPage from './components/LoadingPage/LoadingPage';
 import MovieDetails from './components/MovieDetails/MovieDetails';
 import MovieList from './components/MovieList/MovieList';
 import SearchField from './components/SearchField/SearchField';
@@ -26,20 +27,28 @@ const App = () => {
       <Box sx={{ margin: '0 auto' }}>
         <h1>Find your favorite Star Wars movie</h1>
       </Box>
-      <Grid item xs={12} display='flex' justifyContent='center'>
-        <SearchField movies={movies} setFilteredMovies={setFilteredMovies} />
-      </Grid>
-      <Grid item xs={12}>
-        <SortButton filteredMovies={filteredMovies} setFilteredMovies={setFilteredMovies} />
-      </Grid>
-      <Grid item xs={6}>
-        <MovieList filteredMovies={filteredMovies} selectedIndex={selectedIndex} setSelectedIndex={setSelectedIndex} />
-      </Grid>
-      <Grid item xs={6}>
-        <Box padding='0 2rem'>
-          {selectedMovie ? <MovieDetails selectedMovie={selectedMovie} /> : <h2>Select a movie to view details</h2>}
-        </Box>
-      </Grid>
+      {!data ? (
+        <LoadingPage />
+      ) : (
+        <>
+          <Grid item xs={12} display='flex' justifyContent='center'>
+            <SearchField movies={movies} setFilteredMovies={setFilteredMovies} />
+          </Grid>
+          <Grid item xs={12}>
+            <SortButton filteredMovies={filteredMovies} setFilteredMovies={setFilteredMovies} />
+          </Grid>
+          <Grid item xs={6}>
+            <MovieList
+              filteredMovies={filteredMovies}
+              selectedIndex={selectedIndex}
+              setSelectedIndex={setSelectedIndex}
+            />
+          </Grid>
+          <Grid item xs={6} padding='0 2rem'>
+            {selectedMovie ? <MovieDetails selectedMovie={selectedMovie} /> : <h2>Select a movie to view details</h2>}
+          </Grid>
+        </>
+      )}
     </Grid>
   );
 };

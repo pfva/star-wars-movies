@@ -5,4 +5,8 @@ module.exports = {
   moduleNameMapper: {
     '\\.(css|sass|scss)$': 'identity-obj-proxy',
   },
+  transform: {
+    '^.+\\.tsx?$': 'babel-jest',
+    '^.+\\.svg$': 'jest-transformer-svg',
+  },
 };
