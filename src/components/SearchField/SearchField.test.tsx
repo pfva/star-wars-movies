@@ -1,4 +1,4 @@
-import { render, screen, waitFor } from '@testing-library/react';
+import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { Movie } from '../../types';
 import SearchField from './SearchField';
@@ -32,13 +32,23 @@ describe('SearchField', () => {
   });
 
   it('should filter out movie title based on user input', async () => {
-    const user = userEvent.setup();
     render(<SearchField movies={movies} setFilteredMovies={setFilteredMovies} />);
 
     const firstMovie = movies[0];
     const searchField = screen.getByTestId('search-field');
-    user.type(searchField, 'Hope');
+    fireEvent.change(searchField, { target: { value: 'Hope' } });
 
     waitFor(() => expect(setFilteredMovies).toHaveBeenCalledWith([firstMovie]));
+  });
+
+  it('should clear the filter when the clear button is clicked', async () => {
+    render(<SearchField movies={movies} setFilteredMovies={setFilteredMovies} />);
+
+    const searchField = screen.getByTestId('search-field');
+    fireEvent.change(searchField, { target: { value: 'Hope' } });
+    const clearButton = screen.getByTestId('clear-filter');
+    userEvent.click(clearButton);
+
+    waitFor(() => expect(setFilteredMovies).toHaveBeenCalledWith(movies));
   });
 });

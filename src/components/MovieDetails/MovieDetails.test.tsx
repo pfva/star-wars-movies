@@ -21,7 +21,7 @@ const selectedMovie: Movie = {
 describe('MovieDetails', () => {
   beforeEach(() => {
     (useGetMovieMetadata as jest.Mock).mockReturnValue({
-      data: [
+      ratings: [
         {
           source: 'Internet Movie Database',
           value: '8.6/10',
@@ -36,5 +36,13 @@ describe('MovieDetails', () => {
     const message = screen.getByText(/It is a period of civil war/i);
 
     expect(message).toBeInTheDocument();
+  });
+
+  it('should render ratings when a movie is selected', () => {
+    render(<MovieDetails selectedMovie={selectedMovie} />);
+
+    const rating = screen.getByText(/Internet Movie Database: 8.6\/10/i);
+
+    expect(rating).toBeInTheDocument();
   });
 });

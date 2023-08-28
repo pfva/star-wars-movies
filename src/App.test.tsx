@@ -9,6 +9,7 @@ jest.mock('./hooks/useGetMovieMetadata', () => ({
   __esModule: true,
   default: jest.fn(),
 }));
+jest.mock('./assets/darth-vader.svg', () => 'mockedImage');
 
 describe('App', () => {
   beforeEach(() => {
@@ -145,5 +146,15 @@ describe('App', () => {
 
     waitFor(() => expect(movies).toHaveLength(1));
     waitFor(() => expect(firstMovie).toHaveTextContent(/The Empire Strikes Back/i));
+  });
+
+  it('should render a loading page when no data has yet been returned', () => {
+    (useFetch as jest.Mock).mockReturnValue({
+      data: undefined,
+      error: undefined,
+    });
+    render(<App />);
+
+    expect(screen.getByText(/Loading.../i)).toBeInTheDocument();
   });
 });

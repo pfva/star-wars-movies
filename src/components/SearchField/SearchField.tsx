@@ -35,7 +35,7 @@ const SearchField = ({ movies, setFilteredMovies }: SearchFieldProps) => {
       onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
         handleFilterMovies(event);
       }}
-      data-testid='search-field'
+      inputProps={{ 'data-testid': 'search-field' }}
       InputProps={{
         startAdornment: (
           <InputAdornment position='start'>
